@@ -20,6 +20,11 @@ def ci (){
     // stage('functional test'){
     //     sh './run_functional_tests.sh'
     // }
+
+    stage('End-2-End test'){
+        sh './docker_run_EE_tests.sh'
+    }
+
 }
 
 def buildImage(imageName){
