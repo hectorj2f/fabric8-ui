@@ -24,6 +24,7 @@ import { LocalStorageModule } from 'angular-2-local-storage';
 import { MomentModule }       from 'angular2-moment';
 import { PlannerModule }      from 'fabric8-planner';
 import { RouterModule }       from '@angular/router';
+import { ModalModule } from 'ngx-modal';
 import {
   // Base functionality for the runtime console
   KubernetesStoreModule,
@@ -55,7 +56,7 @@ import {
   UserService
 }                             from 'ngx-login-client';
 import { WidgetsModule }      from 'ngx-widgets';
-
+import { PatternFlyNgModule } from 'patternfly-ng';
 
 /*
  * Platform and Environment providers/directives/pipes
@@ -69,9 +70,9 @@ import { APP_RESOLVER_PROVIDERS }      from './app.resolver';
 import { AppState, InternalStateType } from './app.service';
 
 // Footer & Header
-import { FooterComponent } from './footer/footer.component';
-import { HeaderComponent } from './header/header.component';
-import { MenusService }    from './header/menus.service';
+import { FooterComponent } from './layout/footer/footer.component';
+import { HeaderComponent } from './layout/header/header.component';
+import { MenusService }    from './layout/header/menus.service';
 import { ExpFeaturePageComponent } from './exp-feature-page/exp-feature-page.component';
 import { ExpFeatureBannerComponent } from './exp-feature-page/exp-feature-banner.component';
 
@@ -107,14 +108,12 @@ import { realmProvider }                 from './shared/realm-token.provider';
 
 // Component Services
 import { ConfigStore }               from './base/config.store';
-import { DeleteAccountDialogModule } from './delete-account-dialog/delete-account-dialog.module';
-import { ErrorService }              from './error/error.service';
+import { ErrorService }              from './layout/error/error.service';
 import { ProfileService }            from './profile/profile.service';
-import { SpaceWizardModule }         from './space-wizard/space-wizard.module';
-import { ToggleService }             from './toggle/toggle.service';
+import { SpaceWizardModule }         from './space/wizard/space-wizard.module';
 
 // About Modal
-import { AboutModalModule } from './about-modal/about-modal.module';
+import { AboutModalModule } from './layout/about-modal/about-modal.module';
 
 import { EventService } from './shared/event.service';
 import {Fabric8UISpaceNamespace} from "./shared/runtime-console/fabric8-ui-space-namespace.service";
@@ -141,7 +140,6 @@ export type StoreType = {
     BrowserAnimationsModule,
     BrowserModule,
     BsDropdownModule.forRoot(),
-    DeleteAccountDialogModule,
     FormsModule,
     HttpModule,
     KubernetesRestangularModule,
@@ -150,6 +148,7 @@ export type StoreType = {
       prefix: 'fabric8',
       storageType: 'localStorage'
     }),
+    ModalModule,
     MomentModule,
     ReactiveFormsModule,
     RestangularModule,
@@ -157,6 +156,7 @@ export type StoreType = {
     SpaceWizardModule,
     StackDetailsModule,
     WidgetsModule,
+    PatternFlyNgModule,
     StatusListModule,
     // AppRoutingModule must appear last
     AppRoutingModule
@@ -237,7 +237,6 @@ export type StoreType = {
       useClass: Fabric8UISpaceNamespace
     },
     ssoApiUrlProvider,
-    ToggleService,
     UserService,
     witApiUrlProvider,
     realmProvider
