@@ -29,11 +29,8 @@ def ci (){
 
     stage('End-to-End test'){
       sh '''
-        echo $API_URL
-        echo $NODE_ENV
-
         npm install
-        ./run_EE_tests.sh
+        ./run_EE_tests.sh https://openshift.io
         '''
     }
 
