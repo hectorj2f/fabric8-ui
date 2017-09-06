@@ -10,6 +10,7 @@ import { Notifications, NotificationType } from 'ngx-base';
 import * as yaml from 'js-yaml';
 
 import { Fabric8RuntimeConsoleService } from './fabric8-runtime-console.service';
+import {DevNamespaceScope} from "a-runtime-console/kubernetes/service/devnamespace.scope";
 
 interface ConfigMapWrapper {
   configMap?: ConfigMap;
@@ -29,6 +30,7 @@ export class SpaceNamespaceService {
     private configMapService: ConfigMapService,
     private spaces: Spaces,
     private notifications: Notifications,
+    private devNamespace: DevNamespaceScope,
     private fabric8RuntimeConsoleService: Fabric8RuntimeConsoleService
   ) { }
 
@@ -126,20 +128,7 @@ export class SpaceNamespaceService {
   }
 
   buildNamespace(): Observable<string> {
-    return Observable.forkJoin(
-      this.userService
-        .loggedInUser
-        .map(user => user.attributes.username)
-        // TODO Quick hack around the username problems
-        .map(username => {
-          let s = username.split(/@/gi);
-          return s ? s[0].replace('.', '-') : username;
-        })
-        .first(),
-      Observable.of(this.fabric8UIConfig.pipelinesNamespace),
-      (username: string, namespace: string) => ({ username, namespace })
-    )
-      .map(val => `${val.username}${val.namespace}`);
+    return this.devNamespace.namespace;
   }
 
 }

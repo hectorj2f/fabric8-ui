@@ -8,6 +8,7 @@ import { SigninComponent } from './signin/signin.component';
 import { ContextResolver } from './shared/context-resolver.service';
 import { ExperimentalFeatureGuard } from './shared/experimental-feature.guard';
 import { ExperimentalFeatureResolver } from './shared/experimental-feature.resolver';
+import { ProfileResolver } from './shared/profile-resolver.service';
 
 
 export function removeAction(url: string) {
@@ -50,6 +51,17 @@ export const routes: Routes = [
     }
   },
   // Profile
+  {
+    path: '_profile',
+    resolve: {
+      context: ProfileResolver
+    },
+    loadChildren: './profile/profile.module#ProfileModule',
+    data: {
+      title: 'Profile'
+    }
+  },
+
   {
     path: ':entity',
     resolve: {
@@ -97,6 +109,20 @@ export const routes: Routes = [
     loadChildren: './space/plan/board/board.module#BoardModule',
     data: {
       title: 'Plan: Board',
+      featureName: 'Planner'
+    }
+  },
+
+  // Plan details
+  {
+    path: ':entity/:space/plan/detail',
+    resolve: {
+      context: ContextResolver,
+      featureFlagConfig: ExperimentalFeatureResolver
+    },
+    loadChildren: './space/plan/detail/detail.module#DetailModule',
+    data: {
+      title: 'Plan: Detail',
       featureName: 'Planner'
     }
   },

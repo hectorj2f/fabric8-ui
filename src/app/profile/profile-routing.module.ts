@@ -23,6 +23,20 @@ const routes: Routes = [
         data: {
           title: 'Profile'
         }
+      },
+      {
+        path: '_cleanup',
+        loadChildren: './cleanup/cleanup.module#CleanupModule',
+        data: {
+          title: 'Cleanup'
+        }
+      },
+      {
+        path: '_tenant',
+        loadChildren: './tenant/tenant.module#TenantModule',
+        data: {
+          title: 'Tenant'
+        }
       }
     ]
   }

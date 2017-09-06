@@ -27,7 +27,7 @@ describe('Codebases Item Actions Component', () => {
   beforeEach(() => {
     gitHubServiceMock = jasmine.createSpy('GitHubService');
     notificationMock = jasmine.createSpyObj('Notifications', ['message']);
-    broadcasterMock = jasmine.createSpyObj('Broadcaster', ['broadcast']);
+    broadcasterMock = jasmine.createSpyObj('Broadcaster', ['broadcast', 'on']);
     windowServiceMock = jasmine.createSpyObj('WindowService', ['open']);
     workspacesServiceMock = jasmine.createSpyObj('WorkspacesService', ['createWorkspace']);
 
@@ -71,6 +71,7 @@ describe('Codebases Item Actions Component', () => {
     const notificationAction = { name: "created" };
     notificationMock.message.and.returnValue(Observable.of(notificationAction));
     broadcasterMock.broadcast.and.returnValue();
+    broadcasterMock.on.and.returnValue(Observable.of({ running: true }));
     fixture.detectChanges();
     // when
     comp.createAndOpenWorkspace();
@@ -88,6 +89,7 @@ describe('Codebases Item Actions Component', () => {
     workspacesServiceMock.createWorkspace.and.returnValue(Observable.throw('ERROR'));
     const notificationAction = { name: "ERROR" };
     notificationMock.message.and.returnValue(Observable.of(notificationAction));
+    broadcasterMock.on.and.returnValue(Observable.of({ running: true }));
     fixture.detectChanges();
     // when
     comp.createAndOpenWorkspace();

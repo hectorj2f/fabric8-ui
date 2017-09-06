@@ -7,11 +7,13 @@
 .card-pf {
   &.analytical-report-widget {
     position: relative;
+    overflow: auto;
     .fifty-shades-of-grey {
       color: @color-pf-black-500;
     }
     .fabric8-stack-analysis {
       position: relative;
+      padding: 0 10px;
       .recommender-overlay {
         position: absolute;
         top: 0;
@@ -49,7 +51,7 @@
       top: 20%;
       position: relative;
       @include: transform-translate(0%, -20%);
-      h2 { margin: 0 0 40px 0; }
+      h2 { margin: 0 0 40px; }
     }
     .margin-fix { margin: 10px 0; }
     .always-at-bottom {

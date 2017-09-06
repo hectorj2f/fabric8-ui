@@ -1,6 +1,7 @@
 import { Component, Input, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { Subscription } from 'rxjs';
 
+import { Che } from '../services/che';
 import { Codebase } from '../services/codebase';
 import { Broadcaster, Notification, NotificationType, Notifications } from 'ngx-base';
 import { WindowService } from '../services/window.service';
@@ -16,6 +17,7 @@ export class CodebasesItemActionsComponent implements OnDestroy, OnInit {
   @Input() codebase: Codebase;
   @Input() index: number = -1;
 
+  cheRunning: boolean = false;
   subscriptions: Subscription[] = [];
   workspaceBusy: boolean = false;
 
@@ -33,6 +35,13 @@ export class CodebasesItemActionsComponent implements OnDestroy, OnInit {
   }
 
   ngOnInit(): void {
+    this.subscriptions.push(this.broadcaster
+      .on('cheStateChange')
+      .subscribe((che: Che) => {
+        if (che != undefined && che.running === true) {
+          this.cheRunning = true;
+        }
+      }));
   }
 
   // Actions

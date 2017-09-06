@@ -1,7 +1,7 @@
 import { CodebasesItemComponent } from './codebases-item.component';
 import { Observable } from 'rxjs';
 import { Contexts } from 'ngx-fabric8-wit';
-import { Notifications, NotificationType } from 'ngx-base';
+import { Broadcaster, Notifications, NotificationType } from 'ngx-base';
 import { CodebasesService } from '../services/codebases.service';
 import { GitHubService } from '../services/github.service';
 import { NO_ERRORS_SCHEMA } from "@angular/core";
@@ -18,11 +18,13 @@ import {
 import { cloneDeep } from 'lodash';
 
 describe('Codebases Item Component', () => {
+  let broadcasterMock: any;
   let gitHubServiceMock: any;
   let notificationMock: any;
   let fixture, codebases, codebase;
 
   beforeEach(() => {
+    broadcasterMock = jasmine.createSpyObj('Broadcaster', ['on']);
     gitHubServiceMock = jasmine.createSpyObj('GitHubService', ['getRepoDetailsByUrl']);
     notificationMock = jasmine.createSpyObj('Notifications', ['message']);
 
@@ -30,6 +32,9 @@ describe('Codebases Item Component', () => {
       imports: [FormsModule, HttpModule],
       declarations: [CodebasesItemComponent],
       providers: [
+        {
+          provide: Broadcaster, useValue: broadcasterMock
+        },
         {
           provide: GitHubService, useValue: gitHubServiceMock
         },
@@ -77,6 +82,7 @@ describe('Codebases Item Component', () => {
     let comp = fixture.componentInstance;
     let debug = fixture.debugElement;
     comp.codebase = codebase;
+    broadcasterMock.on.and.returnValue(Observable.of({ running: true }));
     fixture.detectChanges();
     let spanDisplayedInformation = debug.queryAll(By.css('.list-pf-title'));
     fixture.whenStable().then(() => {
